@@ -1,0 +1,13 @@
+{
+  "name": "my-first-puppeteer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {},
+  "author": "Arturo",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^2.1.0"
+  },
+  "type": "module"
+}
