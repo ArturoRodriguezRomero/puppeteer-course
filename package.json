@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
-  "scripts": {},
+  "scripts": {
+    "test": "jest",
+    "serve": "http-server -o"
+  },
   "author": "Arturo",
   "license": "ISC",
   "dependencies": {
+    "http-server": "^0.12.1",
+    "jest": "^25.1.0",
+    "jest-puppeteer": "^4.4.0",
     "puppeteer": "^2.1.0"
   },
   "type": "module"
