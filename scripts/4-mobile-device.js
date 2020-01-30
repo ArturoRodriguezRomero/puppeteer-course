@@ -1,5 +1,3 @@
-"use strict";
-
 import puppeteer from "puppeteer";
 
 const [url, path, device = "Nexus 10", delay = 0] = process.argv.slice(2);

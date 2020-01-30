@@ -1,5 +1,3 @@
-"use strict";
-
 // Import puppeteer. (from node 13.7.0 up)
 import puppeteer from "puppeteer";
 // Alternative.

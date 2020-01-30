@@ -1,5 +1,3 @@
-"use strict";
-
 import puppeteer from "puppeteer";
 
 const [url, selector] = process.argv.slice(2);
@@ -27,5 +25,9 @@ const [url, selector] = process.argv.slice(2);
         element.setAttribute("style", "background-color: yellow;");
       });
     });
+  });
+
+  page.on("close", async () => {
+    await browser.close();
   });
 })();

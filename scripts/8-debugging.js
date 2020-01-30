@@ -1,5 +1,3 @@
-("use strict");
-
 import puppeteer from "puppeteer";
 
 const [url = "https://google.com"] = process.argv.slice(2);
