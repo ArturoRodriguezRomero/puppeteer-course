@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-const [url = "https://google.com"] = process.argv.slice(2);
+const [url] = process.argv.slice(2);
 
 (async () => {
   const browser = await puppeteer.launch();

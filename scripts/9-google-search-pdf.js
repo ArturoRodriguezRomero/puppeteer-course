@@ -2,7 +2,7 @@
 
 import puppeteer from "puppeteer";
 
-const [search = "cats"] = process.argv.slice(2);
+const [search] = process.argv.slice(2);
 
 (async () => {
   const browser = await puppeteer.launch({
