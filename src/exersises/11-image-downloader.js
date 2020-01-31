@@ -1,5 +1,6 @@
-import puppeteer from "puppeteer";
-import fs from "fs";
+"use strict";
+const puppeteer = require("puppeteer");
+const fs = require("fs");
 
 const [url, project] = process.argv.slice(2);
 

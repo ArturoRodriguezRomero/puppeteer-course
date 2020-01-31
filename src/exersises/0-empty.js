@@ -1,7 +1,5 @@
-// Import puppeteer. (from node 13.7.0 up)
-import puppeteer from "puppeteer";
-// Alternative.
-// const puppeteer = require("puppeteer")
+"use strict";
+const puppeteer = require("puppeteer");
 
 // Get arguments.
 const [url] = process.argv.slice(2);

@@ -1,6 +1,5 @@
-("use strict");
-
-import puppeteer from "puppeteer";
+"use strict";
+const puppeteer = require("puppeteer");
 
 const [search] = process.argv.slice(2);
 

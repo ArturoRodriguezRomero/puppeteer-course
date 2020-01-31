@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+"use strict";
+const puppeteer = require("puppeteer");
 
 const [url, path, device = "Nexus 10", delay = 0] = process.argv.slice(2);
 

@@ -1,57 +1,100 @@
-export class TodoPage {
-  selectors = {
-    input: ".new-todo",
-    todos: ".todo-list li",
-    toggle: ".toggle",
-    filterActive: 'a[href="#/active"]',
-    filterCompleted: 'a[href="#/completed"]',
-    clearFilter: ".clear-completed"
-  };
+"use strict";
 
-  constructor(page) {}
+const { Page } = require("puppeteer/lib/Page");
 
-  focusInput() {
-    page;
-    return this;
+class TodoPage {
+  /**
+   * @param {Page} page
+   */
+  constructor(page) {
+    this.page = page;
+    this.selectors = {
+      input: ".new-todo",
+      items: ".todo-list li",
+      labels: ".todo-list li .view label",
+      completedLabels: ".todo-list li.completed",
+      item: index => `.todo-list li:nth-child(${index + 1})`,
+      toggle: index => `.todo-list li:nth-child(${index + 1}) .view .toggle`,
+      remove: index => `.todo-list li:nth-child(${index + 1}) .view .destroy`,
+      filterActive: 'a[href="#/active"]',
+      filterCompleted: 'a[href="#/completed"]',
+      clearCompleted: ".clear-completed",
+      clearFilter: 'a[href="#/"]'
+    };
   }
 
-  type(text) {
-    return this;
+  async focusInput() {
+    this.page.focus(this.selectors.input);
   }
 
-  enter() {
-    return this;
+  async type(text) {
+    await this.page.keyboard.type(text);
   }
 
-  hover(index) {
-    return this;
+  async enter() {
+    await this.page.keyboard.press("Enter");
   }
 
-  edit() {
-    return this;
+  async hover(index) {
+    this.page.hover(this.selectors.item(index));
   }
 
-  clear() {
-    return this;
+  async edit(index) {
+    this.page.click(this.selectors.item(index), { clickCount: 2 });
   }
 
-  delete() {
-    return this;
+  async clear() {
+    // Not MacOS 🍎😞
+    // await this.page.keyboard.down("Control");
+    // await this.page.keyboard.press("A");
+    // await this.page.keyboard.up("Control");
+    // await this.page.keyboard.press("Backspace");
+
+    for (let i = 0; i < 20; i++) {
+      await this.page.keyboard.press("Backspace");
+    }
   }
 
-  toggle(index) {
-    return this;
+  async delete(index) {
+    const remove = await this.page.$(this.selectors.remove(index));
+    await remove.click();
   }
 
-  filterActive() {
-    return this;
+  async toggle(index) {
+    const toggle = await this.page.$(this.selectors.toggle(index));
+    await toggle.click();
   }
 
-  filterCompleted() {
-    return this;
+  async filterActive() {
+    const filter = await this.page.$(this.selectors.filterActive);
+    await filter.click();
   }
 
-  clearFilter() {
-    return this;
+  async filterCompleted() {
+    const filter = await this.page.$(this.selectors.filterCompleted);
+    await filter.click();
+  }
+
+  async clearFilter() {
+    const clear = await this.page.$(this.selectors.clearFilter);
+    await clear.click();
+  }
+
+  async getTodos() {
+    return await page.$$eval(this.selectors.labels, todos =>
+      todos.map(todo => todo.textContent)
+    );
+  }
+
+  async getCompletedTodos() {
+    return await page.$$eval(this.selectors.completedLabels, todos =>
+      todos.map(todo => todo.textContent)
+    );
+  }
+
+  async wait(time) {
+    await this.page.waitFor(time);
   }
 }
+
+module.exports.TodoPage = TodoPage;
