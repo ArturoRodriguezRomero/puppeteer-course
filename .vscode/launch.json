@@ -6,6 +6,17 @@
   "configurations": [
     {
       "type": "node",
+      "runtimeVersion": "13.7.0",
+      "request": "launch",
+      "name": "Debug Script",
+      "program": "${file}",
+      "args": [],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Jest All",
       "program": "${workspaceFolder}/node_modules/.bin/jest",
