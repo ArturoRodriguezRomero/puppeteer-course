@@ -1,5 +1,6 @@
 module.exports = {
   launch: {
-    dumpio: true
+    dumpio: true,
+    slowMo: 1
   }
 };
