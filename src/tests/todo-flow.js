@@ -47,20 +47,8 @@ class TodoFlow {
     await this.page.delete(index);
   }
 
-  /**
-   * @returns {Promise<string[]>}
-   */
-  async getTodos() {
-    const todos = await this.page.getTodos();
-    return todos;
-  }
-
-  /**
-   * @returns {Promise<string[]>}
-   */
-  async getCompletedTodos() {
-    const todos = await this.page.getCompletedTodos();
-    return todos;
+  async toggleAll() {
+    await this.page.toggleAll();
   }
 
   async filterActive() {
@@ -73,6 +61,10 @@ class TodoFlow {
 
   async clearFilters() {
     await this.page.clearFilter();
+  }
+
+  async clearCompleted() {
+    await this.page.clearCompleted();
   }
 }
 

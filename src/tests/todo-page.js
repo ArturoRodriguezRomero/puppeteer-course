@@ -12,14 +12,16 @@ class TodoPage {
       input: ".new-todo",
       items: ".todo-list li",
       labels: ".todo-list li .view label",
-      completedLabels: ".todo-list li.completed",
+      completed: ".todo-list li.completed",
       item: index => `.todo-list li:nth-child(${index + 1})`,
       toggle: index => `.todo-list li:nth-child(${index + 1}) .view .toggle`,
       remove: index => `.todo-list li:nth-child(${index + 1}) .view .destroy`,
+      toggleAll: `label[for="toggle-all"]`,
       filterActive: 'a[href="#/active"]',
       filterCompleted: 'a[href="#/completed"]',
       clearCompleted: ".clear-completed",
-      clearFilter: 'a[href="#/"]'
+      clearFilter: 'a[href="#/"]',
+      count: ".todo-count"
     };
   }
 
@@ -65,6 +67,11 @@ class TodoPage {
     await toggle.click();
   }
 
+  async toggleAll() {
+    const toggleAll = await this.page.$(this.selectors.toggleAll);
+    await toggleAll.click();
+  }
+
   async filterActive() {
     const filter = await this.page.$(this.selectors.filterActive);
     await filter.click();
@@ -80,6 +87,11 @@ class TodoPage {
     await clear.click();
   }
 
+  async clearCompleted() {
+    const clear = await this.page.$(this.selectors.clearCompleted);
+    await clear.click();
+  }
+
   async getTodos() {
     return await page.$$eval(this.selectors.labels, todos =>
       todos.map(todo => todo.textContent)
@@ -87,8 +99,15 @@ class TodoPage {
   }
 
   async getCompletedTodos() {
-    return await page.$$eval(this.selectors.completedLabels, todos =>
+    return await page.$$eval(this.selectors.completed, todos =>
       todos.map(todo => todo.textContent)
+    );
+  }
+
+  async getTodoCount() {
+    return await this.page.$eval(
+      this.selectors.count,
+      count => count.textContent
     );
   }
 

@@ -5,71 +5,159 @@ const { TodoPage } = require("./todo-page");
 
 describe("Todo Page Flow", () => {
   test("create a new todo", async done => {
-    const { flow } = await setup();
+    const { flow, page } = await setup();
     const given = "new todo";
 
     await flow.createTodo(given);
-    const todos = await flow.getTodos();
+    const todos = await page.getTodos();
 
     expect(todos.length).toBe(1);
     expect(todos[0]).toBe(given);
 
-    await teardown(flow);
     done();
-  }, 30000);
+  });
 
   test("edit a todo", async done => {
-    const { flow } = await setup();
+    const { flow, page } = await setup();
     const given = { initial: "initial", edited: "edited" };
 
     await flow.createTodo(given.initial);
     await flow.editTodo(0, given.edited);
 
-    const todos = await flow.getTodos();
+    const todos = await page.getTodos();
 
     expect(todos[0]).toBe(given.edited);
 
-    await teardown(flow);
     done();
-  }, 30000);
+  });
 
-  test("toggle a todo", async done => {
-    const { flow } = await setup();
+  test("complete a todo", async done => {
+    const { flow, page } = await setup();
 
     await flow.createTodo("new todo");
     await flow.toggleTodo(0);
 
-    const completed = await flow.getCompletedTodos();
+    const completed = await page.getCompletedTodos();
 
     expect(completed.length).toBe(1);
 
-    await teardown(flow);
     done();
-  }, 30000);
+  });
+
+  test("un-complete a todo", async done => {
+    const { flow, page } = await setup();
+
+    await flow.createTodo("new todo");
+    await flow.toggleTodo(0);
+    await flow.toggleTodo(0);
+    5;
+    const completed = await page.getCompletedTodos();
+
+    expect(completed.length).toBe(0);
+
+    done();
+  });
+
+  test("complete all", async done => {
+    const { flow, page } = await setup();
+
+    await flow.createTodo("new todo 1");
+    await flow.createTodo("new todo 2");
+    await flow.createTodo("new todo 3");
+
+    await flow.toggleAll();
+
+    const completed = await page.getCompletedTodos();
+
+    expect(completed.length).toBe(3);
+
+    done();
+  });
+
+  test("uncompleted label updates", async done => {
+    const { flow, page } = await setup();
+
+    await flow.createTodo("new todo 1");
+    await flow.createTodo("new todo 2");
+    await flow.createTodo("new todo 3");
+
+    await flow.toggleTodo(1);
+
+    const completed = await page.getTodoCount();
+
+    expect(completed).toBe("2 items left");
+
+    done();
+  });
+
+  test("filter by active", async done => {
+    const { flow, page } = await setup();
+
+    await flow.createTodo("new todo 1");
+    await flow.createTodo("new todo 2");
+    await flow.createTodo("new todo 3");
+    await flow.toggleTodo(1);
+
+    await flow.filterActive();
+    const active = await page.getTodos();
+
+    expect(active.length).toBe(2);
+
+    done();
+  });
+
+  test("filter by complete", async done => {
+    const { flow, page } = await setup();
+
+    await flow.createTodo("new todo 1");
+    await flow.createTodo("new todo 2");
+    await flow.createTodo("new todo 3");
+    await flow.toggleTodo(1);
+
+    await flow.filterCompleted();
+    const active = await page.getTodos();
+
+    expect(active.length).toBe(1);
+
+    done();
+  });
+
+  test("clear completed", async done => {
+    const { flow, page } = await setup();
+
+    await flow.createTodo("new todo 1");
+    await flow.createTodo("new todo 2");
+    await flow.createTodo("new todo 3");
+    await flow.toggleTodo(1);
+
+    await flow.clearCompleted();
+    const todos = await page.getTodos();
+
+    expect(todos.length).toBe(2);
+
+    done();
+  });
 });
 
 /**
- * @returns {{flow: TodoFlow}}
+ * @returns {{flow: TodoFlow, page: TodoPage}}
  */
 const setup = async () => {
   const url = "http://127.0.0.1:8080/";
 
   await page.goto(url);
 
-  const flow = new TodoFlow(new TodoPage(page));
+  await page.evaluate(() => {
+    localStorage.clear();
+  });
+
+  await page.goto(url);
+
+  const todoPage = new TodoPage(page);
+  const todoFlow = new TodoFlow(todoPage);
+
   return {
-    flow
+    page: todoPage,
+    flow: todoFlow
   };
-};
-
-/**
- * @param {TodoFlow} flow
- */
-const teardown = async flow => {
-  await flow.clearFilters();
-
-  const todos = await flow.getTodos();
-  const removes = todos.map((_, index) => flow.removeTodo(index));
-
-  await Promise.all(removes);
 };
