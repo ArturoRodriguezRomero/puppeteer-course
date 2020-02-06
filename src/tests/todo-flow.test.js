@@ -143,7 +143,7 @@ describe("Todo Page Flow", () => {
  * @returns {{flow: TodoFlow, page: TodoPage}}
  */
 const setup = async () => {
-  const url = "http://127.0.0.1:8080/";
+  const url = process.env.URL;
 
   await page.goto(url);
 
