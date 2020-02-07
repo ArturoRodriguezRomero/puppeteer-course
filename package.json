@@ -6,7 +6,8 @@
   "scripts": {
     "start": "http-server ./src/todo-mvc -p 8081",
     "test": "jest",
-    "test:local": "env URL=http://localhost:8081 jest"
+    "test:local": "env URL=http://localhost:8081 jest",
+    "test:online": "env URL=http://todomvc.com/examples/vanillajs/ jest"
   },
   "author": "Arturo",
   "license": "ISC",
