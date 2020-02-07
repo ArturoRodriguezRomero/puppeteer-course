@@ -4,8 +4,9 @@
   "description": "",
   "main": "",
   "scripts": {
+    "start": "http-server ./src/todo-mvc -p 8081",
     "test": "jest",
-    "serve": "http-server -o"
+    "test:local": "env URL=http://localhost:8081 jest"
   },
   "author": "Arturo",
   "license": "ISC",

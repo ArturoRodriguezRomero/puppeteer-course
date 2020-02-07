@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+  todo-app:
+    image: todo-mvc:latest
+    ports:
+      - 8080:8081
+    command: npm start
+  todo-test:
+    image: todo-mvc:latest
+    environment:
+      - URL=http://todo-app:8081
+    command: npm test
+    depends_on:
+      - todo-app

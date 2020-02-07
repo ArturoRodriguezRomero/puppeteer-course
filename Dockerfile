@@ -7,9 +7,8 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 COPY package.json .
 RUN npm install
 COPY . .
 
-CMD [ "npm", "test" ]  
