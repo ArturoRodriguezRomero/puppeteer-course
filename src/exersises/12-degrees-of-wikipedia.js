@@ -1,28 +1,30 @@
 "use strict";
 const puppeteer = require("puppeteer");
 
-const [target, ...hints] = process.argv.slice(2);
+const [
+  target = "https://en.wikipedia.org/wiki/Software",
+  ...hints
+] = process.argv.slice(2);
 const help = [target, ...hints];
 const wikipedia = "https://en.wikipedia.org/wiki/Main_Page";
 const history = [];
-let counter = 0;
 
-const getRandomLink = async links => {
-  const random = Math.floor(Math.random() * (links.length - 1));
-  const target = links[random];
+const isWikipediaInternalLink = url => {
+  return url.split(":").length > 2;
+};
+
+const getRandomLink = async urls => {
+  const random = Math.floor(Math.random() * (urls.length - 1));
+  const target = urls[random];
 
   if (target === undefined) return history[history.length - 2];
 
-  let url = await target.evaluate(element => element.href);
+  let url = target;
 
   return url;
 };
 
-const getHelpfulLink = async links => {
-  const urls = await Promise.all(
-    links.map(link => link.evaluate(link => link.href))
-  );
-
+const getHelpfulLink = async urls => {
   const helpLowerCase = help.map(help => help.toLowerCase());
   const urlsLowerCase = urls.map(url => url.toLowerCase());
 
@@ -30,7 +32,7 @@ const getHelpfulLink = async links => {
     url => helpLowerCase.filter(help => url.includes(help)).length > 0
   );
 
-  console.log("Found useful link", helpful[0]);
+  console.log("Useful", helpful[0] !== undefined);
 
   return helpful[0];
 };
@@ -48,22 +50,27 @@ const getHelpfulLink = async links => {
   const page = await browser.newPage();
   await page.goto(wikipedia);
 
-  while (page.url() !== target) {
+  while (page.url().toLowerCase() !== target.toLowerCase()) {
     const links = await page.$$('#content a[href^="/wiki"]');
+    const urls = await Promise.all(
+      links.map(link => link.evaluate(link => link.href))
+    );
 
-    const randomLink = await getRandomLink(links);
-    const helpfulLink = await getHelpfulLink(links);
+    const valuableUrls = urls.filter(url => !isWikipediaInternalLink(url));
+
+    const randomLink = await getRandomLink(valuableUrls);
+    const helpfulLink = await getHelpfulLink(valuableUrls);
 
     const isStuck =
       history.length > 2 &&
       history[history.length - 1] === history[history.length - 3];
 
-    console.log("isStuck", isStuck);
+    console.log("Stuck", isStuck);
 
     const url = helpfulLink && !isStuck ? helpfulLink : randomLink;
 
     history.push(url);
-    console.log((counter += 1) + " - " + url);
+    console.log(history.length + 1 + " - " + url);
     console.log("-------------");
 
     await page.goto(url);

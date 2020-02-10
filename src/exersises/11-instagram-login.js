@@ -1,8 +1,6 @@
 "use strict";
 const puppeteer = require("puppeteer");
 
-const [url] = process.argv.slice(2);
-
 (async () => {
   const browser = await puppeteer.launch({
     headless: false,
@@ -59,6 +57,4 @@ const [url] = process.argv.slice(2);
   await page.keyboard.press("Enter");
 
   // We're in 🐱‍💻
-
-  await page.goto(url);
 })();
