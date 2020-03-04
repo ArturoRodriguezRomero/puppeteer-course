@@ -6,7 +6,7 @@
   "configurations": [
     {
       "type": "node",
-      "runtimeVersion": "13.7.0",
+      "runtimeVersion": "13.9.0",
       "request": "launch",
       "name": "Debug Script",
       "program": "${file}",

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Google</title>
+    <link rel="stylesheet" href="/css/fontello.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <a href="#">Gmail</a>
+            <a href="#">Imágenes</a>
+            <a href="#" class="menu-icon"></a>
+            <a href="#"> <img src="" alt=""></a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="main-logo">
+            <img src="./img/googlelogo_color_272x92dp.png" alt="">
+        </section>
+
+        <section class="main-input">
+            <div class="main-input-container">
+                <span class="search-icon">
+                    <!-- <img src="" alt=""> -->
+                </span>
+
+                <input type="text" autofocus>
+
+                <a class="micro-icon" href=""></a>
+            </div>
+        </section>
+
+        <section class="main-buttons">
+            <div>
+                <button id="search-button">Buscar con Google</button>
+            </div>
+
+            <div>
+                <button>Me siento con suerte</button>
+            </div>
+        </section>
+    </main>
+
+
+    <footer>
+        <ul class="footer-left">
+            <li>
+                <a href="">Publicidad</a>
+            </li>
+            <li>
+                <a href="">Negocios</a>
+            </li>
+            <li>
+                <a href="">Acerca de</a>
+            </li>
+            <li>
+                <a href="">Cómo funciona la búsqueda</a>
+            </li>
+        </ul>
+        <ul class="footer-right">
+            <li>
+                <a href="">Privacidad</a>
+            </li>
+            <li>
+                <a href="">Condiciones</a>
+            </li>
+            <li>
+                <a href="">Preferencias</a>
+            </li>
+        </ul>
+    </footer>
+</body>
+</html>
+
+<script>
+    const search = document.querySelector("#search-button");
+    const input = document.querySelector("[type=text]");
+
+    search.addEventListener("click", () => {
+        window.location = "./search/stackoverlow - Buscar con Google.htm";
+    })
+
+    input.addEventListener("keyup", event => {
+        if(event.code === "Enter"){
+            window.location = "./search/stackoverlow - Buscar con Google.htm";
+        }
+    })
+</script>

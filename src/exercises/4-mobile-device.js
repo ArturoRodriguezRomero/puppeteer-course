@@ -10,6 +10,7 @@ const [url, path, device = "Nexus 10", delay = 0] = process.argv.slice(2);
   const page = await browser.newPage();
 
   await page.setViewport(puppeteer.devices[device].viewport);
+  // o await page.emulate(puppeteer.devices[device])
 
   await page.goto(url);
 

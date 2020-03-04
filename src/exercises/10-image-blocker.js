@@ -16,7 +16,6 @@ const [url] = process.argv.slice(2);
   await page.setRequestInterception(true);
 
   page.on("request", request => {
-    console.log(request.resourceType());
     const isImage = ["image", "media"].includes(request.resourceType());
 
     if (isImage) {

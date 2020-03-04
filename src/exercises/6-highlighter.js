@@ -13,13 +13,13 @@ const [url, selector] = process.argv.slice(2);
   await page.goto(url);
 
   await page.waitFor(1000);
-
+  
   await page.$$eval(selector, elements => {
     elements.map(element => {
       element.setAttribute("style", "background-color: yellow;");
     });
   });
-
+  
   page.on("requestfinished", async () => {
     await page.$$eval(selector, elements => {
       elements.map(element => {
@@ -28,7 +28,11 @@ const [url, selector] = process.argv.slice(2);
     });
   });
 
+  // Forma más directa (trampa)
+  // page.addStyleTag({content: `${selector}{background-color: yellow;}`});
+  
   page.on("close", async () => {
     await browser.close();
   });
 })();
+

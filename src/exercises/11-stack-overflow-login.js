@@ -17,43 +17,37 @@ const puppeteer = require("puppeteer");
   });
 
   // Google Search
-  page.goto("https://google.com");
+  page.goto("http://localhost:8083");
 
   await page.waitFor(1000);
 
-  await page.keyboard.type("isntag");
-  await page.keyboard.press("ArrowDown");
+  await page.keyboard.type("stackoverldow");
   await page.keyboard.press("Enter");
 
-  await page.waitFor(1000);
+  await page.waitForNavigation({waitUntil: "networkidle0"});
 
-  await page.keyboard.press("Tab");
+  for(let i = 0; i < 24; i++) {
+    await page.keyboard.press("Tab");
+  }
+
   await page.keyboard.press("Enter");
 
-  await page.keyboard.press("Tab");
-  await page.keyboard.press("Tab");
-  await page.keyboard.press("Tab");
-  await page.keyboard.press("Enter");
-
-  await page.waitFor(1000);
-
-  // Login link
-  const result = await page.$x(`//a[contains(text(), "Inicia sesión")]`);
-  const loginLink = result[0];
-
-  await loginLink.click();
-
-  await page.waitFor(1000);
+  // await page.waitForNavigation({waitUntil: "networkidle0"});
 
   // Login form
-  const username = await page.$("[name=username]");
+  const username = await page.$("[name=display-name]");
+  const email = await page.$("[name=email]");
   const password = await page.$("[name=password]");
 
   await username.focus();
   await page.keyboard.type("username");
 
+  await email.focus();
+  await page.keyboard.type("email@google.com");
+
   await password.focus();
-  await page.keyboard.type("password");
+  await page.keyboard.type("password123");
+
   await page.keyboard.press("Enter");
 
   // We're in 🐱‍💻

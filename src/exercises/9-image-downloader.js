@@ -2,7 +2,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
-const [url, project] = process.argv.slice(2);
+const [url = "https://google.com", project = "project"] = process.argv.slice(2);
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -20,6 +20,7 @@ const [url, project] = process.argv.slice(2);
   page.on("load", async () => {
     const images = responses.filter(response =>
       response.url().match(/(https?:\/\/.*\.(?:png|jpg))/i)
+      // o (mejor) ["image", "media"].includes(response.request().resourceType())
     );
 
     images.map(async (image, index) => {

@@ -5,6 +5,7 @@
   "main": "",
   "scripts": {
     "start": "http-server ./src/todo-mvc -p 8081",
+    "start:google": "http-server ./src/google-offline -p 8083 -o",
     "test": "jest",
     "test:local": "env URL=http://localhost:8081 jest",
     "test:online": "env URL=http://todomvc.com/examples/vanillajs/ jest"
