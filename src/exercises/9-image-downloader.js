@@ -23,7 +23,7 @@ const [url = "https://google.com", project = "project"] = process.argv.slice(2);
       // o (mejor) ["image", "media"].includes(response.request().resourceType())
     );
 
-    images.map(async (image, index) => {
+    images.forEach(async (image, index) => {
       const buffer = await image.buffer();
 
       fs.writeFileSync("images/" + project + "-" + index + ".png", buffer);

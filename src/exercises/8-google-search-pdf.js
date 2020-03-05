@@ -4,7 +4,8 @@ const puppeteer = require("puppeteer");
 const [search] = process.argv.slice(2);
 
 (async () => {
-  const browser = await puppeteer.launch();
+  // Importante tener headless a true para hacer pdf
+  const browser = await puppeteer.launch({headless: true});
   const page = await browser.newPage();
 
   await page.goto("http://localhost:8083");
