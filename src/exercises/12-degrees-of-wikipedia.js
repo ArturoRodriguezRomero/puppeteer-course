@@ -51,7 +51,7 @@ const getHelpfulLink = async urls => {
   await page.goto(wikipedia);
 
   while (page.url().toLowerCase() !== target.toLowerCase()) {
-    const links = await page.$$('#content a[href^="/wiki"]');
+    const links = await page.$$('#content a[href^="/wiki"], .infobox a[href^="/wiki"]');
     const urls = await Promise.all(
       links.map(link => link.evaluate(link => link.href))
     );
